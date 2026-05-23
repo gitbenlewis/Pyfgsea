@@ -1,0 +1,110 @@
+output_dirs:
+  tables: examples/generated/tables
+  plots: examples/generated/plots
+  pathways: examples/generated/pathways
+
+input_files:
+  ranks: examples/data/ranks.tsv
+  pathways: examples/data/pathways.gmt
+  genes: examples/data/genes.txt
+  expression: examples/data/expression.tsv
+
+default_params:
+  run: true
+  seed: 42
+  save:
+    dpi: 120
+
+shared:
+  gsea_defaults: &gsea_defaults
+    min_size: 2
+    max_size: 10
+    n_perm_simple: 250
+    seed: 42
+  simple_defaults: &simple_defaults
+    min_size: 2
+    max_size: 10
+    n_perm: 250
+    seed: 42
+  geseca_defaults: &geseca_defaults
+    min_size: 2
+    max_size: 10
+    n_perm_simple: 200
+    seed: 42
+
+runs:
+  quickstart_fgsea:
+    run: true
+    renderer: fgsea
+    output_name: quickstart_fgsea.tsv
+    params: *gsea_defaults
+
+  fgsea_simple:
+    run: true
+    renderer: fgsea_simple
+    output_name: fgsea_simple.tsv
+    params: *simple_defaults
+
+  fgsea_multilevel_eps0:
+    run: true
+    renderer: fgsea_multilevel
+    output_name: fgsea_multilevel_eps0.tsv
+    params:
+      <<: *gsea_defaults
+      eps: 0
+
+  enrichment_plot:
+    run: true
+    renderer: plot_enrichment
+    output_name: enrichment_up_signal.png
+    params:
+      pathway: UP_SIGNALING
+      figure_size: [7, 4]
+      title: UP_SIGNALING
+
+  gsea_table:
+    run: true
+    renderer: plot_gsea_table
+    output_name: gsea_table.png
+    params:
+      <<: *gsea_defaults
+      top_n: 3
+      figure_size: [9, 4]
+
+  ora:
+    run: true
+    renderer: fora
+    output_name: ora.tsv
+    params:
+      min_size: 2
+      max_size: 10
+
+  geseca:
+    run: true
+    renderer: geseca
+    output_name: geseca.tsv
+    params: *geseca_defaults
+
+  coregulation_profile:
+    run: true
+    renderer: plot_coregulation_profile
+    output_name: coregulation_profile.png
+    params:
+      pathway: UP_SIGNALING
+      title: UP_SIGNALING profile
+      figure_size: [8, 4]
+
+  geseca_table:
+    run: true
+    renderer: plot_geseca_table
+    output_name: geseca_table.png
+    params:
+      <<: *geseca_defaults
+      top_n: 3
+      figure_size: [9, 4]
+
+  gmt_roundtrip:
+    run: true
+    renderer: gmt_roundtrip
+    output_name: roundtrip.gmt
+    params: {}

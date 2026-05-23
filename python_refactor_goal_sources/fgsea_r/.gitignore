@@ -5,7 +5,3 @@
 *.o
 inst/doc
 inst/broad_gsea
-__pycache__/
-.pytest_cache/
-*.egg-info/
-examples/generated/
